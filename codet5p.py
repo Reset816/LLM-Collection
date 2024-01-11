@@ -1,13 +1,19 @@
-from transformers import AutoModelForSeq2SeqLM, AutoTokenizer
+class CodeT5p:
+    def __init__(self):
+        self.load_model()
 
-checkpoint = "Salesforce/codet5p-16b"
+    def load_model(self):
+        from transformers import AutoModelForSeq2SeqLM, AutoTokenizer
 
-tokenizer = AutoTokenizer.from_pretrained(checkpoint)
-model = AutoModelForSeq2SeqLM.from_pretrained(checkpoint,
-                                              trust_remote_code=True,
-                                              device_map="auto")
+        checkpoint = "Salesforce/codet5p-16b"
 
-encoding = tokenizer("write a python function of quick sort.", return_tensors="pt")
-encoding['decoder_input_ids'] = encoding['input_ids'].clone()
-outputs = model.generate(**encoding, max_length=100)
-print(tokenizer.decode(outputs[0], skip_special_tokens=True))
+        self.tokenizer = AutoTokenizer.from_pretrained(checkpoint)
+        self.model = AutoModelForSeq2SeqLM.from_pretrained(
+            checkpoint, trust_remote_code=True, device_map="auto"
+        )
+
+    def run_model(self, input_text):
+        self.encoding = self.tokenizer(input_text, return_tensors="pt").to("cuda")
+        self.encoding["decoder_input_ids"] = self.encoding["input_ids"]
+        outputs = self.model.generate(**self.encoding, max_length=100)
+        return self.tokenizer.decode(outputs[0], skip_special_tokens=True)
