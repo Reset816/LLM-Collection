@@ -28,15 +28,21 @@ def open_the_only_file(directory):
 
 def eval_llm(model, model_type):
     cve_list = list_files("dataset/python/")
-    # handle each cve
+    # handle each cv
     for cve in cve_list:
-        print(cve)
+        logger.info("Handle: " + cve)
         for exp in ["1", "2", "3"]:
+            save_dir = os.path.join("./result", model_type, exp)
+            target = os.path.join(save_dir, cve + ".ruby")
+            if os.path.exists(target):
+                logger.info(target + " exist!")
+                continue
+
             poc = open_the_only_file(os.path.join("dataset/python/", cve, exp))
             if poc != "error":
                 model_output = model.run_model(poc)
-                save_dir = os.path.join("./result", model_type, exp)
                 if not os.path.exists(save_dir):
                     os.makedirs(save_dir)
-                with open(os.path.join(save_dir, cve + ".ruby"), "w") as f:
+                with open(target, "w") as f:
                     f.write(model_output)
+                    logger.info("Done: " + target)
