@@ -1,8 +1,7 @@
 import sys
 from codet5p import CodeT5p
-
 from starcoder import StarCoder
-
+from secgpt import SecGPT
 
 def main():
     # if len(sys.argv) < 3:
@@ -16,6 +15,8 @@ def main():
         model = CodeT5p()
     elif model_type == "starcoder":
         model = StarCoder()
+    elif model_type == "secgpt":
+        model = SecGPT()
     else:
         print("Unsupported model type")
         sys.exit(1)
