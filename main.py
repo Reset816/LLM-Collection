@@ -3,11 +3,12 @@ from codet5p import CodeT5p
 from starcoder import StarCoder
 from secgpt import SecGPT
 from eval_llm import eval_llm
+from loguru import logger
 
 
 def main():
     if len(sys.argv) < 2:
-        print("Usage: python script.py [model_type]")
+        print("Usage: ppython script.py [model_type]")
         sys.exit(1)
 
     model_type = sys.argv[1].lower()
@@ -22,7 +23,15 @@ def main():
         print("Unsupported model type")
         sys.exit(1)
 
-    print(model.run_model("write a python function of quick sort."))
+    logger.remove()  # remove default handler
+    log_format = (
+        "<green>{time:YYYY-MM-DD HH:mm:ss}</green> | {level} | <green>"
+        + model_type
+        + "</green> | {message}"
+    )
+    logger.add(sys.stdout, format=log_format)
+
+    # print(model.run_model("write a python function of quick sort."))
     eval_llm(model, model_type)
 
 
