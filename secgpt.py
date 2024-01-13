@@ -1,6 +1,7 @@
 class SecGPT:
-    def __init__(self):
+    def __init__(self, system_prompt):
         self.load_model()
+        self.system_prompt = system_prompt
 
     def load_model(self):
         from transformers import AutoModelForCausalLM, AutoTokenizer
@@ -32,7 +33,7 @@ class SecGPT:
                 )
             return prefix
 
-        query = reformat_sft(input_text, "")
+        query = self.system_prompt + reformat_sft(input_text, "")
 
         generation_kwargs = {
             "top_p": 0.7,

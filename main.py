@@ -4,6 +4,7 @@ from starcoder import StarCoder
 from secgpt import SecGPT
 from eval_llm import eval_llm
 from loguru import logger
+import prompt
 
 
 def main():
@@ -14,11 +15,11 @@ def main():
     model_type = sys.argv[1].lower()
 
     if model_type == "codet5p":
-        model = CodeT5p()
+        model = CodeT5p(prompt.system_prompt)
     elif model_type == "starcoder":
-        model = StarCoder()
+        model = StarCoder(prompt.system_prompt)
     elif model_type == "secgpt":
-        model = SecGPT()
+        model = SecGPT(prompt.system_prompt)
     else:
         print("Unsupported model type")
         sys.exit(1)
@@ -30,6 +31,7 @@ def main():
         + "</green> | {message}"
     )
     logger.add(sys.stdout, format=log_format)
+    logger.add("log.txt", format=log_format)
 
     # print(model.run_model("write a python function of quick sort."))
     eval_llm(model, model_type)

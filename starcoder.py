@@ -1,6 +1,7 @@
 class StarCoder:
-    def __init__(self):
+    def __init__(self, system_prompt):
         self.load_model()
+        self.system_prompt = system_prompt
 
     def load_model(self):
         import torch
