@@ -37,17 +37,20 @@ def eval_llm(model, model_type):
         for cve in cve_list:
             logger.info("Handle: " + cve)
             for exp in ["1", "2", "3"]:
-                save_dir = os.path.join("./result", mode, model_type, language, exp)
-                target = os.path.join(save_dir, cve + ".ruby")
-                if os.path.exists(target):
-                    logger.info(target + " exist!")
-                    continue
+                for repeat in (0, 3):
+                    save_dir = os.path.join("./result", mode, model_type, language, exp)
+                    target = os.path.join(save_dir, str(repeat) + "-" + cve + ".rb")
+                    if os.path.exists(target):
+                        logger.info(target + " exist!")
+                        continue
 
-                poc = open_the_only_file(os.path.join("dataset/", language, cve, exp))
-                if poc != "error":
-                    model_output = model.run_model(prompt.user_prompt_weak + poc)
-                    if not os.path.exists(save_dir):
-                        os.makedirs(save_dir)
-                    with open(target, "w") as f:
-                        f.write(model_output)
-                        logger.info("Done: " + target)
+                    poc = open_the_only_file(
+                        os.path.join("dataset/", language, cve, exp)
+                    )
+                    if poc != "error":
+                        model_output = model.run_model(prompt.user_prompt_weak + poc)
+                        if not os.path.exists(save_dir):
+                            os.makedirs(save_dir)
+                        with open(target, "w") as f:
+                            f.write(model_output)
+                            logger.info("Done: " + target)
