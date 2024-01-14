@@ -37,7 +37,7 @@ def eval_llm(model, model_type):
         for cve in cve_list:
             logger.info("Handle: " + cve)
             for exp in ["1", "2", "3"]:
-                for repeat in (0, 3):
+                for repeat in range(0, 3):
                     save_dir = os.path.join("./result", mode, model_type, language, exp)
                     target = os.path.join(save_dir, str(repeat) + "-" + cve + ".rb")
                     if os.path.exists(target):
