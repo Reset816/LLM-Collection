@@ -1,7 +1,6 @@
 import os
 from loguru import logger
-from config import *
-import prompt
+import config
 
 
 def list_folders(directory):
@@ -38,7 +37,9 @@ def eval_llm(model, model_type):
             logger.info("Handle: " + cve)
             for exp in ["1", "2", "3"]:
                 for repeat in range(0, 3):
-                    save_dir = os.path.join("./result", mode, model_type, language, exp)
+                    save_dir = os.path.join(
+                        "./result", config.mode, model_type, language, exp
+                    )
                     target = os.path.join(save_dir, str(repeat) + "-" + cve + ".rb")
                     if os.path.exists(target):
                         logger.info(target + " exist!")
@@ -49,9 +50,7 @@ def eval_llm(model, model_type):
                     )
                     if poc != "error":
                         try:
-                            model_output = model.run_model(
-                                prompt.user_prompt_weak + poc
-                            )
+                            model_output = model.run_model(config.user_prompt + poc)
                             if not os.path.exists(save_dir):
                                 os.makedirs(save_dir)
                             with open(target, "w") as f:

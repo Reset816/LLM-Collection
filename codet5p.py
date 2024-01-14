@@ -1,7 +1,9 @@
-class CodeT5p:
-    def __init__(self, system_prompt):
+from llm import *
+
+
+class CodeT5p(LLM):
+    def __init__(self):
         self.load_model()
-        self.system_prompt = system_prompt
 
     def load_model(self):
         from transformers import AutoModelForSeq2SeqLM, AutoTokenizer
@@ -13,6 +15,7 @@ class CodeT5p:
             checkpoint, trust_remote_code=True, device_map="auto"
         )
 
+    @cost_time
     def run_model(self, input_text):
         self.encoding = self.tokenizer(input_text, return_tensors="pt").to("cuda")
         self.encoding["decoder_input_ids"] = self.encoding["input_ids"]

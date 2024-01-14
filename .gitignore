@@ -2,4 +2,4 @@ venv
 __pycache__
 dataset
 result
-log.txt
+*.txt

@@ -1,7 +1,9 @@
-class StarCoder:
-    def __init__(self, system_prompt):
+from llm import *
+
+
+class StarCoder(LLM):
+    def __init__(self):
         self.load_model()
-        self.system_prompt = system_prompt
 
     def load_model(self):
         import torch
@@ -31,6 +33,7 @@ class StarCoder:
         self.tokenizer.pad_token = "<fim_pad>"
         self.tokenizer.eos_token = "<|endoftext|>"
 
+    @cost_time
     def run_model(self, input_text):
         HUMAN_ROLE_START_TAG = "<|role_start|>human<|role_end|>"
         BOT_ROLE_START_TAG = "<|role_start|>bot<|role_end|>"
@@ -42,7 +45,9 @@ class StarCoder:
         outputs = self.model.generate(
             inputs=inputs["input_ids"],
             attention_mask=inputs["attention_mask"],
-            max_new_tokens=512,
+            max_new_tokens=self.max_new_tokens,
+            max_length=self.max_length,
+            max_time=self.max_time,
             top_p=0.95,
             temperature=0.1,
             do_sample=True,

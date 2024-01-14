@@ -1,7 +1,9 @@
-class SecGPT:
-    def __init__(self, system_prompt):
+from llm import *
+
+
+class SecGPT(LLM):
+    def __init__(self):
         self.load_model()
-        self.system_prompt = system_prompt
 
     def load_model(self):
         from transformers import AutoModelForCausalLM, AutoTokenizer
@@ -17,6 +19,7 @@ class SecGPT:
             torch_dtype=torch.float16,
         ).to("cuda")
 
+    @cost_time
     def run_model(self, input_text):
         def reformat_sft(instruction, input):
             if input:
@@ -38,7 +41,9 @@ class SecGPT:
         generation_kwargs = {
             "top_p": 0.7,
             "temperature": 0.3,
-            "max_new_tokens": 2000,
+            "max_new_tokens": self.max_new_tokens,
+            "max_length": self.max_length,
+            "max_time": self.max_time,
             "do_sample": True,
             "repetition_penalty": 1.1,
         }
