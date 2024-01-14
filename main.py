@@ -2,6 +2,8 @@ import sys
 from codet5p import CodeT5p
 from starcoder import StarCoder
 from secgpt import SecGPT
+from codellama import CodeLlama
+from mixtral import Mixtral
 from eval_llm import eval_llm
 from loguru import logger
 
@@ -19,10 +21,13 @@ def main():
         model = StarCoder()
     elif model_type == "secgpt":
         model = SecGPT()
+    elif model_type == "codellama":
+        model = CodeLlama()
+    elif model_type == "mixtral":
+        model = Mixtral()
     else:
         print("Unsupported model type")
         sys.exit(1)
-
     logger.remove()  # remove default handler
     log_format = (
         "<green>{time:YYYY-MM-DD HH:mm:ss.SSS}</green> | "
