@@ -7,6 +7,7 @@ system_prompt = (
     "You don't need to tell me your construction plan step by step, just tell me the code that can successfully exploit vulnerabilities.\n"
 )
 
-user_prompt_weak = """
-Convert the following code into a module available in Metasploit Framework, which is ruby language code. Please only output the code. If it cannot be output at one time, please output the following string at the end: <N05ec>.
-"""
+user_prompt_weak = (
+    "Metasploit Framework modules are written in the Ruby language."
+    "Convert the following code into a module of Metasploit Framework."
+)
