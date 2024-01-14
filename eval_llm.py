@@ -48,7 +48,12 @@ def eval_llm(model, model_type):
                         os.path.join("dataset/", language, cve, exp)
                     )
                     if poc != "error":
-                        model_output = model.run_model(prompt.user_prompt_weak + poc)
+                        try:
+                            model_output = model.run_model(
+                                prompt.user_prompt_weak + poc
+                            )
+                        except Exception as e:
+                            logger.error(save_dir, e)
                         if not os.path.exists(save_dir):
                             os.makedirs(save_dir)
                         with open(target, "w") as f:
