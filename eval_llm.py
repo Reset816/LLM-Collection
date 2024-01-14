@@ -52,10 +52,10 @@ def eval_llm(model, model_type):
                             model_output = model.run_model(
                                 prompt.user_prompt_weak + poc
                             )
+                            if not os.path.exists(save_dir):
+                                os.makedirs(save_dir)
+                            with open(target, "w") as f:
+                                f.write(model_output)
+                                logger.info("Done: " + target)
                         except Exception as e:
-                            logger.error(save_dir, e)
-                        if not os.path.exists(save_dir):
-                            os.makedirs(save_dir)
-                        with open(target, "w") as f:
-                            f.write(model_output)
-                            logger.info("Done: " + target)
+                            logger.error(save_dir + " " + str(e))
