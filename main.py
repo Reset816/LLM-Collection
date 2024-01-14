@@ -26,10 +26,12 @@ def main():
 
     logger.remove()  # remove default handler
     log_format = (
-        "<green>{time:YYYY-MM-DD HH:mm:ss}</green> | {level} | <green>"
-        + model_type
-        + "</green> | {message}"
+        "<green>{time:YYYY-MM-DD HH:mm:ss.SSS}</green> | "
+        "<level>{level: <8}</level> | "
+        # "<cyan>{name}</cyan>:<cyan>{function}</cyan>:<cyan>{line}</cyan> | "
+        "{extra[model_type]} - <level>{message}</level>"
     )
+    logger.configure(extra={"model_type": model_type})
     logger.add(sys.stdout, format=log_format)
     logger.add("log.txt", format=log_format)
 
