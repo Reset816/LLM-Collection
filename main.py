@@ -42,7 +42,7 @@ def main():
     logger.configure(extra={"model_type": model_type})
     logger.add(sys.stdout, format=log_format)
     logger.add(
-        os.path.add(
+        os.path.join(
             "log/",
             model_type + "-" + datetime.now().strftime("%m-%d-%H:%M:%S") + ".txt",
         ),
