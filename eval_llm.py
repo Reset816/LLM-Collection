@@ -50,7 +50,9 @@ def eval_llm(model, model_type):
                     )
                     if poc != "error":
                         try:
-                            model_output = model.run_model(config.user_prompt + poc)
+                            model_output = model.run_model(
+                                config.user_prompt(language) + poc
+                            )
                             if not os.path.exists(save_dir):
                                 os.makedirs(save_dir)
                             with open(target, "w") as f:
