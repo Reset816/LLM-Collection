@@ -11,8 +11,8 @@ system_prompt = (
 )
 
 user_prompt_weak = (
-    "Metasploit Framework modules are written in the Ruby language."
-    "Convert the following code into a module of Metasploit Framework."
+    "Metasploit Framework modules are written in the Ruby language. "
+    "Convert the following code into a module of Metasploit Framework.\n"
 )
 
 user_prompt = user_prompt_weak
