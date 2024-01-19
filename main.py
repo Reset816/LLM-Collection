@@ -1,4 +1,5 @@
 import sys
+import os
 from codet5p import CodeT5p
 from starcoder import StarCoder
 from secgpt import SecGPT
@@ -6,6 +7,7 @@ from codellama import CodeLlama
 from mixtral import Mixtral
 from eval_llm import eval_llm
 from loguru import logger
+from datetime import datetime
 
 
 def main():
@@ -35,9 +37,17 @@ def main():
         # "<cyan>{name}</cyan>:<cyan>{function}</cyan>:<cyan>{line}</cyan> | "
         "{extra[model_type]} - <level>{message}</level>"
     )
+    if not os.path.exists("log/"):
+        os.makedirs("log/")
     logger.configure(extra={"model_type": model_type})
     logger.add(sys.stdout, format=log_format)
-    logger.add(model_type + ".txt", format=log_format)
+    logger.add(
+        os.path.add(
+            "log/",
+            model_type + "-" + datetime.now().strftime("%m-%d-%H:%M:%S") + ".txt",
+        ),
+        format=log_format,
+    )
 
     # print(model.run_model("write a python function of quick sort."))
     eval_llm(model, model_type)
