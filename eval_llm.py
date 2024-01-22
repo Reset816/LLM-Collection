@@ -29,6 +29,8 @@ def open_the_only_file(directory):
 
 
 def eval_llm(model, model_type):
+    count_all = 0
+    count_err = 0
     languages = list_folders("dataset/")
     for language in languages:
         cve_list = list_folders(os.path.join("dataset/", language))
@@ -48,10 +50,11 @@ def eval_llm(model, model_type):
                     poc = open_the_only_file(
                         os.path.join("dataset/", language, cve, exp)
                     )
+                    count_all = count_all + 1
                     if poc != "error":
                         try:
                             # very ugly and refactor is needed
-                            if model_type == 'codet5p' :
+                            if model_type == "codet5p":
                                 model_output = model.run_model(
                                     config.user_prompt(language), poc
                                 )
@@ -64,5 +67,12 @@ def eval_llm(model, model_type):
                             with open(target, "w") as f:
                                 f.write(model_output)
                                 logger.info("Done: " + target)
+                                continue
                         except Exception as e:
                             logger.error(save_dir + " " + str(e))
+                    count_err = count_err + 1
+    logger.info(
+        "{} is finished, total {} with {} error.".format(
+            model_type, count_all, count_err
+        )
+    )
