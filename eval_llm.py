@@ -50,9 +50,15 @@ def eval_llm(model, model_type):
                     )
                     if poc != "error":
                         try:
-                            model_output = model.run_model(
-                                config.user_prompt(language), poc
-                            )
+                            # very ugly and refactor is needed
+                            if model_type == 'codet5p' :
+                                model_output = model.run_model(
+                                    config.user_prompt(language), poc
+                                )
+                            else:
+                                model_output = model.run_model(
+                                    config.user_prompt(language) + poc
+                                )
                             if not os.path.exists(save_dir):
                                 os.makedirs(save_dir)
                             with open(target, "w") as f:
