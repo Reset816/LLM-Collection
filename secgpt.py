@@ -17,7 +17,8 @@ class SecGPT(LLM):
             "w8ay/secgpt",
             trust_remote_code=True,
             torch_dtype=torch.float16,
-        ).to("cuda")
+            device_map="auto",
+        )
 
     @cost_time
     def run_model(self, input_text):
