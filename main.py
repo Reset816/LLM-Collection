@@ -4,7 +4,7 @@ from codet5p import CodeT5p
 from starcoder import StarCoder
 from secgpt import SecGPT
 from codellama import CodeLlama
-from codeLlama_70b import CodeLlama_70b
+from codellama_70b import CodeLlama_70b
 from mixtral import Mixtral
 from openaigpt import OpenAIGPT
 from eval_llm import eval_llm
@@ -27,7 +27,7 @@ def main():
         model = SecGPT()
     elif model_type == "codellama":
         model = CodeLlama()
-    elif model_type == "codeLlama_70b":
+    elif model_type == "codellama_70b":
         model = CodeLlama_70b()
     elif model_type == "mixtral":
         model = Mixtral()
