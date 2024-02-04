@@ -4,7 +4,9 @@ from codet5p import CodeT5p
 from starcoder import StarCoder
 from secgpt import SecGPT
 from codellama import CodeLlama
+from codeLlama_70b import CodeLlama_70b
 from mixtral import Mixtral
+from openaigpt import OpenAIGPT
 from eval_llm import eval_llm
 from loguru import logger
 from datetime import datetime
@@ -25,8 +27,12 @@ def main():
         model = SecGPT()
     elif model_type == "codellama":
         model = CodeLlama()
+    elif model_type == "codeLlama_70b":
+        model = CodeLlama_70b()
     elif model_type == "mixtral":
         model = Mixtral()
+    elif model_type == "openaigpt":
+        model = OpenAIGPT()
     else:
         print("Unsupported model type")
         sys.exit(1)
